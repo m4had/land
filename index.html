@@ -431,6 +431,51 @@ nav a:hover { color: white; }
 .claim-box p { font-size: .85rem; color: var(--text-muted); margin-bottom: 1rem; }
 
 /* Toast */
+/* Claim form */
+.claim-steps { display: flex; justify-content: center; gap: 0; margin-bottom: 2rem; }
+.claim-step-indicator {
+  display: flex; align-items: center; gap: .5rem; padding: .6rem 1.2rem;
+  font-size: .85rem; font-weight: 600; color: var(--text-muted); position: relative;
+}
+.claim-step-indicator.active { color: var(--primary); }
+.claim-step-indicator.completed { color: var(--success); }
+.claim-step-indicator .step-dot {
+  width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--border); color: white; font-size: .8rem; font-weight: 700;
+}
+.claim-step-indicator.active .step-dot { background: var(--primary); }
+.claim-step-indicator.completed .step-dot { background: var(--success); }
+.step-connector { width: 40px; height: 2px; background: var(--border); align-self: center; }
+.step-connector.completed { background: var(--success); }
+
+.claim-form-section { display: none; }
+.claim-form-section.active { display: block; }
+
+.sig-pad {
+  border: 2px dashed var(--border); border-radius: 8px; cursor: crosshair; background: #fafafa;
+  width: 100%; height: 150px; display: block;
+}
+.sig-pad:hover { border-color: var(--primary); }
+
+.doc-checklist { list-style: none; }
+.doc-checklist li {
+  display: flex; align-items: center; gap: .75rem; padding: .75rem; margin-bottom: .5rem;
+  background: var(--bg); border-radius: 8px; font-size: .9rem;
+}
+.doc-checklist input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--primary); }
+.doc-checklist .doc-upload { margin-left: auto; }
+
+.review-section { background: var(--bg); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.review-section h4 { color: var(--primary-dark); margin-bottom: .5rem; font-size: .95rem; }
+.review-row { display: flex; justify-content: space-between; padding: .3rem 0; font-size: .9rem; }
+.review-row .label { color: var(--text-muted); }
+
+.success-screen { text-align: center; padding: 2rem; }
+.success-icon { font-size: 4rem; margin-bottom: 1rem; }
+.success-screen h2 { color: var(--success); margin-bottom: .5rem; }
+.success-screen p { color: var(--text-muted); margin-bottom: 1.5rem; }
+.ref-number { background: var(--bg); padding: 1rem; border-radius: 8px; font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); letter-spacing: 2px; margin-bottom: 1.5rem; }
+
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -793,6 +838,19 @@ footer {
   </div>
 </div>
 
+<!-- Claim Form Modal -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal" style="max-width:850px">
+    <div class="modal-header" style="background:linear-gradient(135deg,var(--primary-dark),var(--primary));color:white">
+      <h2>📝 Land Claim Application</h2>
+      <button class="modal-close" onclick="closeClaimModal()" style="color:white">✕</button>
+    </div>
+    <div class="modal-body" id="claimFormBody">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -1054,9 +1112,365 @@ function openDetail(id) {
   document.getElementById('detailModal').classList.add('active');
 }
 
+let claimData = {};
+let claimStep = 1;
+let sigCanvas, sigCtx, sigDrawing = false;
+
 function startClaim(id) {
   const l = listings.find(x => x.id === id);
-  showToast(`📝 Claim process started for "${l.title}". Prepare your documents and contact local land authority.`);
+  if (!l) return;
+  claimData = { listing: l, step: 1, personal: {}, documents: {}, signature: null };
+  claimStep = 1;
+  closeDetailModal();
+  renderClaimForm();
+  document.getElementById('claimModal').classList.add('active');
+}
+
+function closeClaimModal() { document.getElementById('claimModal').classList.remove('active'); }
+
+function renderClaimForm() {
+  const l = claimData.listing;
+  const steps = ['Personal Info', 'Documents', 'Declaration', 'Review & Submit'];
+  
+  const stepsHtml = steps.map((s, i) => {
+    const num = i + 1;
+    const cls = num === claimStep ? 'active' : num < claimStep ? 'completed' : '';
+    const connector = i < steps.length - 1 ? `<div class="step-connector ${num < claimStep ? 'completed' : ''}"></div>` : '';
+    return `<div class="claim-step-indicator ${cls}"><span class="step-dot">${num < claimStep ? '✓' : num}</span>${s}</div>${connector}`;
+  }).join('');
+
+  const p = claimData.personal || {};
+
+  document.getElementById('claimFormBody').innerHTML = `
+    <div style="background:var(--bg);padding:1rem;border-radius:8px;margin-bottom:1.5rem;display:flex;justify-content:space-between;align-items:center">
+      <div><strong>${l.title}</strong><br><span style="font-size:.85rem;color:var(--text-muted)">📍 ${l.region}, ${l.country} · ${l.size} acres · ${l.claimMethod}</span></div>
+      <span class="tag">${l.status}</span>
+    </div>
+
+    <div class="claim-steps">${stepsHtml}</div>
+
+    <!-- Step 1: Personal Info -->
+    <div class="claim-form-section ${claimStep===1?'active':''}">
+      <h3 style="margin-bottom:1rem">👤 Personal Information</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Full Legal Name *</label><input type="text" id="claimName" value="${p.name||''}" placeholder="As it appears on your ID"></div>
+        <div class="form-group"><label>Date of Birth *</label><input type="date" id="claimDob" value="${p.dob||''}"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Nationality *</label><input type="text" id="claimNationality" value="${p.nationality||''}" placeholder="e.g. United States"></div>
+        <div class="form-group"><label>ID / Passport Number *</label><input type="text" id="claimIdNum" value="${p.idNum||''}" placeholder="Government-issued ID number"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email Address *</label><input type="email" id="claimEmail" value="${p.email||''}" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" id="claimPhone" value="${p.phone||''}" placeholder="+1 555 123 4567"></div>
+      </div>
+      <div class="form-group"><label>Mailing Address *</label><textarea id="claimAddress" rows="2" placeholder="Full mailing address for correspondence">${p.address||''}</textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Intended Use of Land *</label>
+          <select id="claimUse">
+            <option value="">Select...</option>
+            <option ${p.use==='Residential'?'selected':''}>Residential</option>
+            <option ${p.use==='Agricultural'?'selected':''}>Agricultural</option>
+            <option ${p.use==='Conservation'?'selected':''}>Conservation</option>
+            <option ${p.use==='Commercial'?'selected':''}>Commercial</option>
+            <option ${p.use==='Recreational'?'selected':''}>Recreational</option>
+            <option ${p.use==='Mixed Use'?'selected':''}>Mixed Use</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Occupation</label><input type="text" id="claimOccupation" value="${p.occupation||''}" placeholder="Your current occupation"></div>
+      </div>
+      <div class="modal-footer" style="border:none;padding:1rem 0 0">
+        <button class="btn" onclick="closeClaimModal()">Cancel</button>
+        <button class="btn btn-success" onclick="claimNext()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Documents -->
+    <div class="claim-form-section ${claimStep===2?'active':''}">
+      <h3 style="margin-bottom:.5rem">📄 Required Documents</h3>
+      <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1rem">Check each document you have prepared and optionally upload scans/photos.</p>
+      <ul class="doc-checklist">
+        ${l.documents.map((d, i) => `
+          <li>
+            <input type="checkbox" id="doc_${i}" ${claimData.documents[d]?'checked':''}>
+            <span>${d}</span>
+            <input type="file" class="doc-upload" id="docfile_${i}" accept=".pdf,.jpg,.png,.doc,.docx" style="font-size:.8rem;max-width:200px">
+          </li>
+        `).join('')}
+      </ul>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Additional Notes / Supporting Information</label>
+        <textarea id="claimNotes" rows="3" placeholder="Any additional information relevant to your claim...">${claimData.notes||''}</textarea>
+      </div>
+      <div class="modal-footer" style="border:none;padding:1rem 0 0">
+        <button class="btn" onclick="claimPrev()">← Back</button>
+        <button class="btn btn-success" onclick="claimNext()">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Declaration & Signature -->
+    <div class="claim-form-section ${claimStep===3?'active':''}">
+      <h3 style="margin-bottom:1rem">✍️ Declaration & Signature</h3>
+      <div style="background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:1rem;margin-bottom:1.5rem;font-size:.9rem">
+        <strong>⚠️ Legal Declaration</strong>
+        <p style="margin-top:.5rem">By signing below, I hereby declare that:</p>
+        <ul style="margin:.75rem 0 0 1.5rem;line-height:2">
+          <li>All information provided in this application is true and accurate to the best of my knowledge.</li>
+          <li>I understand that filing a fraudulent land claim is a criminal offense in most jurisdictions.</li>
+          <li>I have researched the applicable laws regarding <strong>${l.claimMethod}</strong> in <strong>${l.country}</strong>.</li>
+          <li>I acknowledge that this application does not guarantee approval of my land claim.</li>
+          <li>I agree to comply with all local, regional, and national regulations governing land claims.</li>
+          <li>I understand I may need to physically visit and/or improve the land as required by law.</li>
+        </ul>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="claimAgree"> I have read, understand, and agree to the above declaration *</label>
+      </div>
+      <div class="form-group">
+        <label>Digital Signature * <span style="font-size:.8rem;color:var(--text-muted)">(draw below)</span></label>
+        <canvas class="sig-pad" id="sigCanvas" width="700" height="150"></canvas>
+        <div style="display:flex;gap:.5rem;margin-top:.5rem">
+          <button class="btn btn-sm" onclick="clearSig()">Clear</button>
+          <span style="font-size:.8rem;color:var(--text-muted);align-self:center">Use your mouse or finger to sign</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Type Full Name to Confirm *</label>
+        <input type="text" id="claimSigName" value="${claimData.sigName||''}" placeholder="Type your full legal name exactly as above">
+      </div>
+      <div class="modal-footer" style="border:none;padding:1rem 0 0">
+        <button class="btn" onclick="claimPrev()">← Back</button>
+        <button class="btn btn-success" onclick="claimNext()">Review Application →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Review & Submit -->
+    <div class="claim-form-section ${claimStep===4?'active':''}">
+      <h3 style="margin-bottom:1rem">📋 Review Your Application</h3>
+      <div class="review-section">
+        <h4>🏞️ Land Parcel</h4>
+        <div class="review-row"><span class="label">Parcel</span><span>${l.title}</span></div>
+        <div class="review-row"><span class="label">Location</span><span>${l.region}, ${l.country}</span></div>
+        <div class="review-row"><span class="label">Size</span><span>${l.size} acres</span></div>
+        <div class="review-row"><span class="label">Claim Method</span><span>${l.claimMethod}</span></div>
+        <div class="review-row"><span class="label">Coordinates</span><span>${l.lat}, ${l.lng}</span></div>
+      </div>
+      <div class="review-section">
+        <h4>👤 Applicant</h4>
+        <div class="review-row"><span class="label">Name</span><span>${p.name||'—'}</span></div>
+        <div class="review-row"><span class="label">DOB</span><span>${p.dob||'—'}</span></div>
+        <div class="review-row"><span class="label">Nationality</span><span>${p.nationality||'—'}</span></div>
+        <div class="review-row"><span class="label">ID Number</span><span>${p.idNum||'—'}</span></div>
+        <div class="review-row"><span class="label">Email</span><span>${p.email||'—'}</span></div>
+        <div class="review-row"><span class="label">Phone</span><span>${p.phone||'—'}</span></div>
+        <div class="review-row"><span class="label">Address</span><span>${p.address||'—'}</span></div>
+        <div class="review-row"><span class="label">Intended Use</span><span>${p.use||'—'}</span></div>
+      </div>
+      <div class="review-section">
+        <h4>📄 Documents (${Object.keys(claimData.documents).filter(k=>claimData.documents[k]).length}/${l.documents.length})</h4>
+        ${l.documents.map(d => `<div class="review-row"><span class="label">${d}</span><span>${claimData.documents[d]?'✅ Ready':'⚠️ Missing'}</span></div>`).join('')}
+      </div>
+      ${claimData.signature ? `<div class="review-section"><h4>✍️ Signature</h4><img src="${claimData.signature}" style="max-width:300px;border:1px solid var(--border);border-radius:4px" alt="Signature"></div>` : ''}
+      <div class="modal-footer" style="border:none;padding:1rem 0 0">
+        <button class="btn" onclick="claimPrev()">← Back</button>
+        <button class="btn btn-success" style="font-size:1rem;padding:.75rem 2rem" onclick="submitClaim()">✅ Submit Claim Application</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Success -->
+    <div class="claim-form-section ${claimStep===5?'active':''}">
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2>Claim Application Submitted!</h2>
+        <p>Your land claim application has been recorded. Save your reference number below.</p>
+        <div class="ref-number">TF-${String(Date.now()).slice(-8)}-${Math.random().toString(36).slice(2,6).toUpperCase()}</div>
+        <div style="background:var(--bg);border-radius:8px;padding:1.25rem;text-align:left;margin-bottom:1.5rem">
+          <h4 style="margin-bottom:.75rem">📌 Next Steps:</h4>
+          <ol style="margin-left:1.5rem;line-height:2;font-size:.9rem">
+            <li>Download and print your application summary</li>
+            <li>Gather all required original documents</li>
+            <li>Contact the local land authority in <strong>${l.country}</strong></li>
+            <li>Submit physical copies as required by <strong>${l.claimMethod}</strong> process</li>
+            <li>You may need to visit and survey the land in person</li>
+            <li>Follow up with the registering authority within 30–90 days</li>
+          </ol>
+        </div>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-success" onclick="downloadClaimPDF()">📥 Download Application</button>
+          <button class="btn btn-primary" onclick="closeClaimModal()">Done</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Init signature pad on step 3
+  if (claimStep === 3) {
+    setTimeout(initSigPad, 100);
+  }
+}
+
+function saveCurrentStep() {
+  if (claimStep === 1) {
+    claimData.personal = {
+      name: document.getElementById('claimName').value.trim(),
+      dob: document.getElementById('claimDob').value,
+      nationality: document.getElementById('claimNationality').value.trim(),
+      idNum: document.getElementById('claimIdNum').value.trim(),
+      email: document.getElementById('claimEmail').value.trim(),
+      phone: document.getElementById('claimPhone').value.trim(),
+      address: document.getElementById('claimAddress').value.trim(),
+      use: document.getElementById('claimUse').value,
+      occupation: document.getElementById('claimOccupation').value.trim()
+    };
+  } else if (claimStep === 2) {
+    const l = claimData.listing;
+    l.documents.forEach((d, i) => {
+      claimData.documents[d] = document.getElementById('doc_'+i).checked;
+    });
+    claimData.notes = document.getElementById('claimNotes').value.trim();
+  } else if (claimStep === 3) {
+    claimData.sigName = document.getElementById('claimSigName').value.trim();
+    if (sigCanvas) claimData.signature = sigCanvas.toDataURL();
+  }
+}
+
+function claimNext() {
+  saveCurrentStep();
+  // Validation
+  if (claimStep === 1) {
+    const p = claimData.personal;
+    if (!p.name || !p.dob || !p.nationality || !p.idNum || !p.email || !p.phone || !p.address || !p.use) {
+      showToast('⚠️ Please fill in all required fields marked with *'); return;
+    }
+  } else if (claimStep === 2) {
+    const checked = Object.values(claimData.documents).filter(Boolean).length;
+    if (checked === 0) { showToast('⚠️ Please confirm at least one document is prepared'); return; }
+  } else if (claimStep === 3) {
+    if (!document.getElementById('claimAgree').checked) { showToast('⚠️ You must agree to the declaration'); return; }
+    if (!claimData.sigName) { showToast('⚠️ Please type your full name to confirm'); return; }
+    if (claimData.sigName.toLowerCase() !== claimData.personal.name.toLowerCase()) {
+      showToast('⚠️ Typed name must match your full legal name'); return;
+    }
+  }
+  claimStep++;
+  renderClaimForm();
+}
+
+function claimPrev() {
+  saveCurrentStep();
+  claimStep--;
+  renderClaimForm();
+}
+
+function submitClaim() {
+  // Save to localStorage
+  const claims = JSON.parse(localStorage.getItem('terrafree_claims') || '[]');
+  const ref = 'TF-' + String(Date.now()).slice(-8) + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
+  claims.push({ ref, ...claimData, submittedAt: new Date().toISOString() });
+  localStorage.setItem('terrafree_claims', JSON.stringify(claims));
+
+  // Update listing status
+  const l = listings.find(x => x.id === claimData.listing.id);
+  if (l) { l.status = 'Pending'; localStorage.setItem('terrafree_listings', JSON.stringify(listings)); }
+
+  claimStep = 5;
+  renderClaimForm();
+  filterListings();
+}
+
+function downloadClaimPDF() {
+  const p = claimData.personal;
+  const l = claimData.listing;
+  const text = `LAND CLAIM APPLICATION
+${'═'.repeat(50)}
+
+Reference: TF-${String(Date.now()).slice(-8)}
+Date: ${new Date().toLocaleDateString()}
+
+PARCEL INFORMATION
+${'─'.repeat(50)}
+Parcel:         ${l.title}
+Location:       ${l.region}, ${l.country}
+Continent:      ${l.continent}
+Size:           ${l.size} acres
+Coordinates:    ${l.lat}, ${l.lng}
+Land Type:      ${l.type}
+Claim Method:   ${l.claimMethod}
+
+APPLICANT INFORMATION
+${'─'.repeat(50)}
+Full Name:      ${p.name}
+Date of Birth:  ${p.dob}
+Nationality:    ${p.nationality}
+ID Number:      ${p.idNum}
+Email:          ${p.email}
+Phone:          ${p.phone}
+Address:        ${p.address}
+Occupation:     ${p.occupation || 'N/A'}
+Intended Use:   ${p.use}
+
+DOCUMENTS PREPARED
+${'─'.repeat(50)}
+${l.documents.map(d => `[${claimData.documents[d]?'✓':' '}] ${d}`).join('\n')}
+
+ADDITIONAL NOTES
+${'─'.repeat(50)}
+${claimData.notes || 'None'}
+
+DECLARATION
+${'─'.repeat(50)}
+I, ${p.name}, hereby declare that all information provided
+in this application is true and accurate to the best of my knowledge.
+
+Digital Signature: ${claimData.sigName}
+Date Signed: ${new Date().toLocaleDateString()}
+
+${'═'.repeat(50)}
+Generated by TerraFree — Global Unclaimed Land Marketplace
+This document should be submitted alongside original documents
+to the relevant land authority in ${l.country}.
+`;
+
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `land-claim-application-${l.title.replace(/\s+/g, '-').toLowerCase()}.txt`;
+  a.click();
+  showToast('📥 Application downloaded!');
+}
+
+function initSigPad() {
+  sigCanvas = document.getElementById('sigCanvas');
+  if (!sigCanvas) return;
+  sigCtx = sigCanvas.getContext('2d');
+  sigCtx.strokeStyle = '#1b4332';
+  sigCtx.lineWidth = 2.5;
+  sigCtx.lineCap = 'round';
+  
+  if (claimData.signature) {
+    const img = new Image();
+    img.onload = () => sigCtx.drawImage(img, 0, 0);
+    img.src = claimData.signature;
+  }
+
+  const getPos = (e) => {
+    const r = sigCanvas.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: t.clientX - r.left, y: t.clientY - r.top };
+  };
+
+  sigCanvas.addEventListener('mousedown', e => { sigDrawing = true; sigCtx.beginPath(); const p = getPos(e); sigCtx.moveTo(p.x, p.y); });
+  sigCanvas.addEventListener('mousemove', e => { if (!sigDrawing) return; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); });
+  sigCanvas.addEventListener('mouseup', () => sigDrawing = false);
+  sigCanvas.addEventListener('mouseleave', () => sigDrawing = false);
+  sigCanvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing = true; sigCtx.beginPath(); const p = getPos(e); sigCtx.moveTo(p.x, p.y); }, {passive:false});
+  sigCanvas.addEventListener('touchmove', e => { e.preventDefault(); if (!sigDrawing) return; const p = getPos(e); sigCtx.lineTo(p.x, p.y); sigCtx.stroke(); }, {passive:false});
+  sigCanvas.addEventListener('touchend', () => sigDrawing = false);
+}
+
+function clearSig() {
+  if (sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+  claimData.signature = null;
 }
 
 function downloadDocs(id) {
