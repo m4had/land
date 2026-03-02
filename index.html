@@ -1176,18 +1176,30 @@ let claimStep = 1;
 let sigCanvas, sigCtx, sigDrawing = false;
 
 function startClaim(id) {
-  const l = listings.find(x => x.id === id);
-  if (!l) return;
-  claimData = { listing: l, step: 1, personal: {}, documents: {}, signature: null };
-  claimStep = 1;
-  closeDetailModal();
-  renderClaimForm();
-  document.getElementById('claimModal').classList.add('active');
+  try {
+    const l = listings.find(x => x.id === id);
+    if (!l) { showToast('⚠️ Listing not found'); return; }
+    // Ensure required fields exist
+    if (!l.authority) l.authority = { name:'Local Land Authority', address:'Contact local government', phone:'N/A', website:'#', email:'N/A', formUrl:'' };
+    if (!l.legalRef) l.legalRef = '';
+    if (!l.filingFee) l.filingFee = '';
+    if (!l.features) l.features = [];
+    if (!l.documents) l.documents = ['Government ID','Land Claim Application'];
+    claimData = { listing: l, step: 1, personal: {}, documents: {}, signature: null };
+    claimStep = 1;
+    closeDetailModal();
+    renderClaimForm();
+    document.getElementById('claimModal').classList.add('active');
+  } catch(e) {
+    console.error('startClaim error:', e);
+    showToast('⚠️ Error: ' + e.message);
+  }
 }
 
 function closeClaimModal() { document.getElementById('claimModal').classList.remove('active'); }
 
 function renderClaimForm() {
+  try {
   const l = claimData.listing;
   const auth = l.authority || {};
   const steps = ['Personal Info', 'Documents', 'Declaration', 'Review & Submit'];
@@ -1390,6 +1402,7 @@ function renderClaimForm() {
   if (claimStep === 3) {
     setTimeout(initSigPad, 100);
   }
+  } catch(e) { console.error('renderClaimForm error:', e); showToast('⚠️ Form error: ' + e.message); }
 }
 
 function saveCurrentStep() {
