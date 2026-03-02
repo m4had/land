@@ -860,98 +860,134 @@ const sampleListings = [
   {
     id: 1, title: "Mojave Desert Parcel", country: "United States", region: "California", continent: "North America",
     size: 40, type: "Desert", lat: 35.0116, lng: -115.4734, status: "Available",
-    description: "40-acre desert parcel in the Mojave region. Flat terrain with mountain views. No structures, utilities, or improvements. Under BLM jurisdiction — claimable via Desert Land Entry Act for agricultural development.",
-    claimMethod: "Government Land Grant", features: ["Off-Grid", "Road Access"],
-    documents: ["BLM Land Patent Application", "Desert Land Entry Form", "Proof of Water Development Plan", "Government ID", "Filing Fee Receipt"],
-    image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600", date: "2026-02-28"
+    description: "40-acre desert parcel in the Mojave region. Flat terrain with mountain views. No structures, utilities, or improvements. Under BLM jurisdiction — claimable via Desert Land Entry Act (43 U.S.C. §321–339) for agricultural development. Requires proof of irrigation/reclamation within 3 years.",
+    claimMethod: "Desert Land Entry (43 U.S.C. §321)", features: ["Off-Grid", "Road Access"],
+    documents: ["Form 2014-1 — Desert Land Entry Application", "Form 2014-4 — Annual Proof of Expenditure", "Water Right Proof / State Water Permit", "Plat or Survey of Land (Legal Subdivision Description)", "Government-Issued Photo ID", "Filing Fee ($1.25/acre + $15 application fee)"],
+    image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=600", date: "2026-02-28",
+    authority: { name: "Bureau of Land Management (BLM) — California State Office", address: "2800 Cottage Way, Suite W-1623, Sacramento, CA 95825", phone: "(916) 978-4400", website: "https://www.blm.gov/programs/lands-and-realty", email: "blm_ca_web_mail@blm.gov", formUrl: "https://www.blm.gov/services/land-patents" },
+    legalRef: "Desert Land Act of 1877 (43 U.S.C. §321–339). Applicant must be a U.S. citizen, reclaim at least one-eighth of the land, and provide proof of water appropriation. Final proof due within 3 years.",
+    filingFee: "$1.25 per acre + $15 filing fee"
   },
   {
     id: 2, title: "Scottish Highland Plot", country: "United Kingdom", region: "Scotland", continent: "Europe",
     size: 15, type: "Grassland", lat: 57.477, lng: -4.224, status: "Verified",
-    description: "15 acres of highland grassland. Rolling hills with stream access. Scotland allows adverse possession after 10 years of continuous, open occupation. Beautiful views of the surrounding glens.",
-    claimMethod: "Adverse Possession", features: ["Water Access", "Road Access"],
-    documents: ["Statutory Declaration", "Ordnance Survey Map Reference", "Evidence of 10-year Occupation", "Land Register Application", "Legal Counsel Letter"],
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", date: "2026-02-25"
+    description: "15 acres of highland grassland. Rolling hills with stream access. Under the Prescription and Limitation (Scotland) Act 1973, as amended by the Land Registration etc. (Scotland) Act 2012, adverse possession (positive prescription) requires 10 years of open, peaceful, and continuous occupation with a registered title or recorded deed.",
+    claimMethod: "Positive Prescription (Scotland Act 1973, s.1)", features: ["Water Access", "Road Access"],
+    documents: ["Form 1 — Application for First Registration (Registers of Scotland)", "Statutory Declaration of Possession (sworn before a Notary Public)", "Ordnance Survey Plan with land edged in red (1:2500 or 1:1250 scale)", "Evidence of 10+ years continuous occupation (utility bills, photographs, witness statements)", "Prescriptive Claimant's Affidavit (Form P16)", "LBTT Return (if applicable) — Revenue Scotland"],
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600", date: "2026-02-25",
+    authority: { name: "Registers of Scotland (RoS)", address: "Meadowbank House, 153 London Road, Edinburgh EH8 7AU", phone: "+44 (0)800 169 9391", website: "https://www.ros.gov.uk/", email: "customer.services@ros.gov.uk", formUrl: "https://www.ros.gov.uk/our-registers/land-register-of-scotland" },
+    legalRef: "Prescription and Limitation (Scotland) Act 1973, Section 1. Requires possession for a continuous period of 10 years, openly, peaceably, and without judicial interruption, founded on a recorded/registered deed.",
+    filingFee: "£60–£6,000 (scaled by property value, see RoS fee calculator)"
   },
   {
     id: 3, title: "Patagonia Grasslands", country: "Argentina", region: "Patagonia", continent: "South America",
     size: 200, type: "Grassland", lat: -43.3, lng: -71.3, status: "Available",
-    description: "200 acres of windswept Patagonian steppe. Remote but accessible via dirt road. Argentina allows prescripción adquisitiva (adverse possession) after 20 years of peaceful, continuous occupation.",
-    claimMethod: "Adverse Possession", features: ["Water Access", "Off-Grid"],
-    documents: ["DNI or Passport", "Prescripción Adquisitiva Filing", "Municipal Survey", "Notarized Affidavit", "Proof of Improvements"],
-    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600", date: "2026-02-20"
+    description: "200 acres of windswept Patagonian steppe. Remote but accessible via dirt road. Argentine Civil and Commercial Code (Art. 1897–1905) allows usucapión (prescripción adquisitiva) after 20 years of peaceful, continuous, uninterrupted, public possession as owner.",
+    claimMethod: "Usucapión / Prescripción Adquisitiva (Código Civil Art. 1897)", features: ["Water Access", "Off-Grid"],
+    documents: ["Demanda de Prescripción Adquisitiva (filed with local Civil Court)", "Plano de Mensura (survey plan by licensed agrimensor)", "Certificado de Dominio e Inhibiciones (from Registro de la Propiedad Inmueble)", "Declaración Jurada de Testigos (sworn witness statements, minimum 2)", "Certificado Catastral (from Dirección Provincial de Catastro)", "DNI or Passport (certified copy)", "Proof of 20-year continuous occupation (tax payments, improvements, photos)"],
+    image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600", date: "2026-02-20",
+    authority: { name: "Juzgado Civil de Primera Instancia — Provincia del Chubut", address: "Av. 9 de Julio 535, Rawson, Chubut, Argentina", phone: "+54 (280) 448-2100", website: "https://www.juschubut.gov.ar/", email: "N/A — File in person at Juzgado Civil", formUrl: "N/A — Requires attorney (abogado) to file judicial action" },
+    legalRef: "Código Civil y Comercial de la Nación, Artículos 1897–1905. Requires 20 years of continuous, public, peaceful possession animo domini. Must be filed as a judicial action (juicio de usucapión) with legal representation.",
+    filingFee: "Court filing fees (tasa de justicia) ~1-3% of assessed land value + attorney fees"
   },
   {
     id: 4, title: "Outback Station Remnant", country: "Australia", region: "Northern Territory", continent: "Oceania",
     size: 500, type: "Arid", lat: -23.7, lng: 133.87, status: "Available",
-    description: "500-acre arid outback parcel. Former pastoral lease, now unclaimed Crown land. Extremely remote. May be claimable through NT pastoral lease application. Red soil, sparse vegetation.",
-    claimMethod: "Government Land Grant", features: ["Off-Grid", "Mineral Rights"],
-    documents: ["Pastoral Lease Application", "NT Land Board Submission", "Environmental Impact Statement", "Aboriginal Heritage Clearance", "ID & Financial Capacity Proof"],
-    image: "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?w=600", date: "2026-02-15"
+    description: "500-acre arid outback parcel. Former pastoral lease, now potentially available Crown land. Under the Pastoral Land Act 1992 (NT), new pastoral leases can be granted by the Pastoral Land Board. Requires demonstrated capacity for pastoral operations.",
+    claimMethod: "Pastoral Lease (Pastoral Land Act 1992 NT)", features: ["Off-Grid", "Mineral Rights"],
+    documents: ["Application for Pastoral Lease (to Pastoral Land Board)", "Property Management Plan", "Financial Capacity Statement (audited)", "Environmental Assessment Report", "Aboriginal Areas Protection Authority (AAPA) Certificate", "NT Government Photo ID or Passport", "Native Title Search (National Native Title Tribunal)"],
+    image: "https://images.unsplash.com/photo-1529108190281-9a4f620bc2d8?w=600", date: "2026-02-15",
+    authority: { name: "Department of Environment, Parks and Water Security — Pastoral Land Board", address: "Level 1, Goyder Centre, 25 Chung Wah Terrace, Palmerston NT 0830", phone: "+61 (08) 8999 4474", website: "https://depws.nt.gov.au/rangelands/pastoral-land-board", email: "pastorallandboard@nt.gov.au", formUrl: "https://depws.nt.gov.au/rangelands/pastoral-land-board" },
+    legalRef: "Pastoral Land Act 1992 (NT). The Pastoral Land Board may grant, vary, or refuse pastoral leases. Applicants must demonstrate financial and operational capacity. Native title rights must be addressed under the Native Title Act 1993 (Cth).",
+    filingFee: "Annual rent assessed by NT Valuer-General + application fees"
   },
   {
     id: 5, title: "Norwegian Fjord Edge", country: "Norway", region: "Nordland", continent: "Europe",
     size: 8, type: "Coastal", lat: 67.28, lng: 14.4, status: "Pending",
-    description: "8-acre coastal plot at the edge of a fjord. Norway's Allemannsretten (right to roam) complicates claims, but unused state land can be applied for through municipal authorities. Stunning arctic scenery.",
-    claimMethod: "Government Land Grant", features: ["Water Access", "Coastal"],
-    documents: ["Municipal Land Application", "Kartverket Survey", "Environmental Assessment", "Building Plan (if applicable)", "Norwegian ID or Residence Permit"],
-    image: "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?w=600", date: "2026-02-10"
+    description: "8-acre coastal plot at the edge of a fjord. Under the Norwegian Allodial Act (Odelsloven) and State Land regulations, unused state-owned land (statsgrunn) can be applied for through Statsforvalteren (County Governor) and Statskog SF. Allemannsretten (right to roam) applies.",
+    claimMethod: "State Land Purchase/Lease (Statskog SF)", features: ["Water Access", "Coastal"],
+    documents: ["Søknad om kjøp/feste av statsgrunn (Application to buy/lease state land)", "Kartverket Situasjonskart (site plan from Norwegian Mapping Authority)", "Reguleringsplan compliance statement", "Konsesjonssøknad (Concession application under Konsesjonsloven)", "Norwegian ID / D-number / Residence Permit", "Municipality approval (kommunens uttalelse)"],
+    image: "https://images.unsplash.com/photo-1513519245088-0e12902e35ca?w=600", date: "2026-02-10",
+    authority: { name: "Statskog SF (State Forest Enterprise)", address: "Postboks 63 Sentrum, 7801 Namsos, Norway", phone: "+47 07 800", website: "https://www.statskog.no/", email: "post@statskog.no", formUrl: "https://www.statskog.no/tjenester/kjop-og-leie-av-grunn" },
+    legalRef: "Konsesjonsloven (Concession Act) §2. Non-agricultural state land may be sold or leased by Statskog SF. Concession from municipality required for parcels over 100 dekar. Building requires compliance with Plan- og bygningsloven.",
+    filingFee: "Market value assessment + NOK 5,000 concession application fee"
   },
   {
     id: 6, title: "Namibian Desert Expanse", country: "Namibia", region: "Erongo", continent: "Africa",
     size: 1000, type: "Desert", lat: -23.08, lng: 14.47, status: "Available",
-    description: "1,000 acres of Namibian desert. Communal land near the Skeleton Coast. Claim requires approval from traditional authority and Communal Land Board. Sparse but striking landscape with unique flora.",
-    claimMethod: "Government Land Grant", features: ["Off-Grid", "Mineral Rights"],
-    documents: ["Communal Land Rights Application", "Traditional Authority Consent", "Ministry of Lands Filing", "Survey Diagram", "ID Document"],
-    image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600", date: "2026-02-05"
+    description: "1,000 acres of Namibian desert. Communal land near the Skeleton Coast. Under the Communal Land Reform Act No. 5 of 2002, rights to communal land are allocated by Traditional Authorities and ratified by the Communal Land Board.",
+    claimMethod: "Communal Land Right (Act No. 5 of 2002)", features: ["Off-Grid", "Mineral Rights"],
+    documents: ["Application for Right of Leasehold (Form 4 — Communal Land Reform Act)", "Written consent from Chief/Traditional Authority", "Communal Land Board Application Form", "Survey Diagram (by registered land surveyor)", "Namibian ID Document or Passport", "Environmental Clearance Certificate (Environmental Management Act 2007)"],
+    image: "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600", date: "2026-02-05",
+    authority: { name: "Ministry of Agriculture, Water and Land Reform — Communal Land Board (Erongo)", address: "Private Bag 13184, Windhoek, Namibia", phone: "+264 61 296 9111", website: "https://mawlr.gov.na/", email: "info@mawlr.gov.na", formUrl: "https://mawlr.gov.na/communal-land" },
+    legalRef: "Communal Land Reform Act No. 5 of 2002, Sections 28-35. Customary land rights granted by Traditional Authority. Leasehold rights (up to 99 years) require Communal Land Board ratification. Foreign nationals must obtain ministerial consent.",
+    filingFee: "N$500 application fee + survey costs (N$5,000–N$20,000)"
   },
   {
     id: 7, title: "Canadian Boreal Forest", country: "Canada", region: "Yukon", continent: "North America",
     size: 160, type: "Forest", lat: 63.0, lng: -136.0, status: "Available",
-    description: "160 acres of boreal forest in the Yukon. Crown land available through Yukon's agricultural land application program. Dense spruce and birch. Seasonal access road. Rich wildlife area.",
-    claimMethod: "Homesteading Act", features: ["Water Access", "Off-Grid"],
-    documents: ["Yukon Agricultural Land Application", "Development Plan", "Environmental Screening", "Survey Certificate", "Canadian ID or PR Card"],
-    image: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600", date: "2026-01-28"
+    description: "160 acres of boreal forest in the Yukon. Crown land available through the Yukon's Agricultural Land Program under the Lands Act and Territorial Lands (Yukon) Act. Dense spruce and birch. Seasonal access road.",
+    claimMethod: "Yukon Agricultural Land Disposition", features: ["Water Access", "Off-Grid"],
+    documents: ["Agricultural Land Application (Yukon Energy, Mines and Resources)", "Farm Development Plan (5-year plan)", "Yukon Environmental and Socio-economic Assessment (YESAB) submission", "Survey Certificate (by Canada Lands Surveyor)", "Proof of Canadian Citizenship or Permanent Residency", "Financial Capacity Statement"],
+    image: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?w=600", date: "2026-01-28",
+    authority: { name: "Yukon Government — Energy, Mines and Resources — Land Management Branch", address: "Box 2703 (K-320), Whitehorse, YT Y1A 2C6, Canada", phone: "+1 (867) 667-5215", website: "https://yukon.ca/en/doing-business/agriculture/apply-agricultural-land", email: "lands@yukon.ca", formUrl: "https://yukon.ca/en/doing-business/agriculture/apply-agricultural-land" },
+    legalRef: "Territorial Lands (Yukon) Act, S.Y. 2003, c.17. Crown land may be sold or leased for agricultural purposes. Applicants must submit a farm development plan and meet YESAB screening requirements. First Nations final agreements and traditional territories must be respected.",
+    filingFee: "$250 application fee + survey costs ($5,000–$15,000)"
   },
   {
     id: 8, title: "Philippine Island Cove", country: "Philippines", region: "Palawan", continent: "Asia",
     size: 5, type: "Island", lat: 10.0, lng: 118.9, status: "Verified",
-    description: "5-acre cove on a minor island near Palawan. Alienable and disposable public land under Philippine law. Can be claimed through free patent application after 30 years occupation or direct application to DENR.",
-    claimMethod: "Government Land Grant", features: ["Water Access", "Coastal"],
-    documents: ["DENR Free Patent Application", "CENRO Certification", "Barangay Clearance", "Tax Declaration", "Survey Plan (Approved by DENR)"],
-    image: "https://images.unsplash.com/photo-1559628233-100c798642d4?w=600", date: "2026-01-20"
+    description: "5-acre cove on a minor island near Palawan. Alienable and disposable public land under the Public Land Act (C.A. No. 141, as amended). Claimable through free patent under R.A. 11573 (2021) — no more occupation period required for residential lands up to 1,000 sqm.",
+    claimMethod: "Free Patent (Public Land Act, C.A. 141 / R.A. 11573)", features: ["Water Access", "Coastal"],
+    documents: ["DENR Free Patent Application (Administrative Order 2022-07)", "Approved Survey Plan (by licensed Geodetic Engineer, DENR-approved)", "CENRO/PENRO Certification (that land is alienable and disposable)", "Barangay Certification of Residency/Occupation", "Tax Declaration and Real Property Tax receipts", "CLOA/Deed of Donation/Sale if from prior occupant", "Community Environment and Natural Resources Office clearance"],
+    image: "https://images.unsplash.com/photo-1559628233-100c798642d4?w=600", date: "2026-01-20",
+    authority: { name: "DENR — CENRO Palawan (Community Environment and Natural Resources Office)", address: "DENR Region IV-B (MIMAROPA), CENRO Puerto Princesa, Palawan, Philippines", phone: "+63 (048) 433-2968", website: "https://www.denr.gov.ph/", email: "cenro.puertopricesa@denr.gov.ph", formUrl: "https://www.denr.gov.ph/index.php/priority-programs/free-patent" },
+    legalRef: "Commonwealth Act No. 141 (Public Land Act), as amended by R.A. No. 11573 (2021). Free patents for residential land (≤1,000 sqm) no longer require occupation period. Agricultural free patents (≤12 ha) still require proof of cultivation. Only Filipino citizens eligible.",
+    filingFee: "₱0 (free patent) + survey costs ₱15,000–₱50,000"
   },
   {
     id: 9, title: "Icelandic Highland Tract", country: "Iceland", region: "Highlands", continent: "Europe",
     size: 75, type: "Tundra", lat: 64.8, lng: -18.5, status: "Available",
-    description: "75 acres of Icelandic highland tundra. Volcanic soil, sparse vegetation, close to a glacier. Þjóðlenda (national land) — claims are complex and require Óbyggðanefnd (wasteland committee) approval.",
-    claimMethod: "Government Land Grant", features: ["Off-Grid"],
-    documents: ["Óbyggðanefnd Application", "Land Registry Filing", "Environmental Impact Report", "Icelandic ID/Residence", "Legal Representation Letter"],
-    image: "https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=600", date: "2026-01-15"
+    description: "75 acres of Icelandic highland tundra. Volcanic soil, sparse vegetation, near a glacier. Classified as þjóðlenda (national land) under the National Land Act (Þjóðlendulög nr. 58/1998). Claims are adjudicated by Óbyggðanefnd (Wasteland Committee).",
+    claimMethod: "Þjóðlendulög (National Land Act No. 58/1998)", features: ["Off-Grid"],
+    documents: ["Claim submission to Óbyggðanefnd (Wasteland Committee)", "Historical evidence of private ownership (pre-1998 deeds, church records)", "Þinglýsingarvottorð (registration certificate from Sýslumaður)", "Land survey by licensed landmælandi", "Legal representation letter (lögmaður required)", "Environmental Impact Assessment (Skipulagsstofnun)"],
+    image: "https://images.unsplash.com/photo-1504829857797-ddff29c27927?w=600", date: "2026-01-15",
+    authority: { name: "Óbyggðanefnd (Wasteland Committee) / Sýslumaðurinn á Norðurlandi eystra", address: "Hafnarstræti 107, 600 Akureyri, Iceland", phone: "+354 458-2600", website: "https://www.syslumenn.is/", email: "akureyri@syslumenn.is", formUrl: "https://www.syslumenn.is/" },
+    legalRef: "Þjóðlendulög nr. 58/1998 (National Land Act). Óbyggðanefnd determines boundaries between private land and þjóðlenda (national land). Claimant must prove unbroken chain of private ownership predating 1998. Appeals to Hæstiréttur (Supreme Court).",
+    filingFee: "Variable — legal and survey costs typically ISK 500,000–2,000,000"
   },
   {
     id: 10, title: "Mongolian Steppe Parcel", country: "Mongolia", region: "Khentii", continent: "Asia",
     size: 300, type: "Grassland", lat: 48.5, lng: 109.5, status: "Available",
-    description: "300 acres of open Mongolian steppe. Mongolian citizens can claim up to 0.7 hectares for free; larger plots available through special lease from local governors. Endless rolling grasslands, nomadic heritage area.",
-    claimMethod: "Government Land Grant", features: ["Off-Grid", "Water Access"],
-    documents: ["Aimag Governor Application", "Mongolian Citizenship Proof", "Land Use Plan", "Environmental Assessment", "Local Soum Office Registration"],
-    image: "https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600", date: "2026-01-10"
+    description: "300 acres of open Mongolian steppe. Under the Mongolian Land Law (2002) and Allocation of Land to Mongolian Citizens for Ownership Act (2003), every Mongolian citizen is entitled to one free land plot (0.07 ha urban, up to 0.5 ha rural). Larger plots via lease from Aimag Governor.",
+    claimMethod: "Land Law of Mongolia (2002) / Citizens Land Ownership Act (2003)", features: ["Off-Grid", "Water Access"],
+    documents: ["Газар өмчлөх тухай хүсэлт (Land ownership/lease application)", "Mongolian National ID (Иргэний үнэмлэх)", "Газрын кадастрын зураг (Cadastral map from ALAGaC)", "Land Use Plan (Газар ашиглалтын төлөвлөгөө)", "Аймгийн Засаг даргын захирамж (Aimag Governor's resolution for large plots)", "Environmental Assessment (Байгаль орчны үнэлгээ)"],
+    image: "https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600", date: "2026-01-10",
+    authority: { name: "Хэнтий Аймгийн Газрын алба (Khentii Aimag Land Office)", address: "Khentii Aimag Government Building, Öndörkhaan, Mongolia", phone: "+976 (70) 562-362", website: "https://www.gazar.gov.mn/", email: "info@gazar.gov.mn", formUrl: "https://www.gazar.gov.mn/" },
+    legalRef: "Газрын тухай хууль (Land Law of Mongolia) 2002, Articles 27-44. Citizens' free allocation: one plot per lifetime (0.07 ha urban / up to 0.5 ha rural). Larger areas: 15-60 year possession licenses from Aimag Governor. Foreign citizens may only lease, not own.",
+    filingFee: "Free for citizen allocation. Lease: MNT 10,000–50,000 application + annual rent"
   },
   {
     id: 11, title: "Brazilian Cerrado Frontier", country: "Brazil", region: "Tocantins", continent: "South America",
     size: 250, type: "Grassland", lat: -10.18, lng: -48.33, status: "Pending",
-    description: "250 acres of cerrado savanna in Tocantins state. Terra devoluta (vacant public land) potentially claimable through INCRA regularization program. Flat terrain suitable for agriculture.",
-    claimMethod: "Government Land Grant", features: ["Water Access", "Road Access"],
-    documents: ["INCRA Regularization Application", "CAR Environmental Registration", "CPF/CNPJ", "Georeferenced Survey (SIGEF)", "Proof of Productive Use"],
-    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600", date: "2026-01-05"
+    description: "250 acres of cerrado savanna in Tocantins. Terra devoluta (vacant public land) potentially regularizable through INCRA under Lei nº 11.952/2009 (Programa Terra Legal) for occupation prior to 2008. Flat terrain suitable for agriculture.",
+    claimMethod: "Regularização Fundiária (Lei 11.952/2009 — Terra Legal)", features: ["Water Access", "Road Access"],
+    documents: ["Requerimento de Regularização Fundiária (INCRA application)", "CAR — Cadastro Ambiental Rural (environmental registration via SICAR)", "CPF (Cadastro de Pessoa Física)", "Planta e Memorial Descritivo georreferenciado (SIGEF-certified survey)", "Declaração de ocupação mansa e pacífica", "CCIR — Certificado de Cadastro de Imóvel Rural", "Proof of productive use (invoices, crop/livestock records)"],
+    image: "https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=600", date: "2026-01-05",
+    authority: { name: "INCRA — Superintendência Regional do Tocantins (SR-26)", address: "ACSU-SE 70, Conjunto 01, Lote 01, Palmas, TO 77020-012, Brazil", phone: "+55 (63) 3219-5100", website: "https://www.gov.br/incra/", email: "sr26@incra.gov.br", formUrl: "https://www.gov.br/incra/pt-br/assuntos/governanca-fundiaria/regularizacao-fundiaria" },
+    legalRef: "Lei nº 11.952/2009 (Terra Legal). Regularizes occupation of federal public lands in Amazônia Legal (includes Tocantins). Occupant must prove occupation prior to 22/07/2008, productive use, and compliance with environmental legislation (Código Florestal — Lei 12.651/2012).",
+    filingFee: "R$0 for small plots (up to 4 módulos fiscais). Larger: assessed value by INCRA"
   },
   {
     id: 12, title: "New Zealand Bush Block", country: "New Zealand", region: "West Coast", continent: "Oceania",
     size: 25, type: "Forest", lat: -42.45, lng: 171.21, status: "Available",
-    description: "25-acre native bush block on NZ's West Coast. Former mining claim, now unoccupied Crown land. Lush podocarp-broadleaf forest. Application through LINZ for pastoral occupation license.",
-    claimMethod: "Government Land Grant", features: ["Water Access", "Off-Grid", "Road Access"],
-    documents: ["LINZ Crown Land Application", "DOC Conservation Assessment", "iwi Consultation Record", "NZ Passport or Visa", "Land Use Proposal"],
-    image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600", date: "2025-12-28"
+    description: "25-acre native bush block on NZ's West Coast. Former mining claim, now unoccupied Crown land. Under the Land Act 1948 and Crown Pastoral Land Act 1998, Crown land may be purchased, leased, or licensed through LINZ (Land Information New Zealand).",
+    claimMethod: "Crown Land Disposal (Land Act 1948)", features: ["Water Access", "Off-Grid", "Road Access"],
+    documents: ["Application to Purchase/Lease Crown Land (LINZ Form)", "Proposed Land Use Statement", "Department of Conservation (DOC) ecological assessment", "Iwi/hapū consultation record (Treaty of Waitangi obligations)", "NZ Passport, Visa, or OIO consent (for non-residents)", "Registered surveyor's plan (Cadastral Survey Rules 2021)"],
+    image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=600", date: "2025-12-28",
+    authority: { name: "Toitū Te Whenua — Land Information New Zealand (LINZ)", address: "Level 7, Radio New Zealand House, 155 The Terrace, Wellington 6011, NZ", phone: "+64 (04) 460-0110", website: "https://www.linz.govt.nz/crown-property", email: "customersupport@linz.govt.nz", formUrl: "https://www.linz.govt.nz/crown-property/crown-land/purchasing-crown-land" },
+    legalRef: "Land Act 1948, Sections 40-60. Crown land disposal requires ministerial approval. Overseas Investment Act 2005 applies to foreign buyers (OIO consent needed). Treaty of Waitangi obligations: iwi right of first refusal may apply under settlement legislation.",
+    filingFee: "NZ$500 application fee + market valuation + survey costs ($5,000–$20,000)"
   }
 ];
 
@@ -1092,6 +1128,22 @@ function openDetail(id) {
               ${l.documents.map(d => `<li>📋 ${d}</li>`).join('')}
             </ul>
           </div>
+          ${l.legalRef ? `<div class="detail-section">
+            <h3>⚖️ Legal Basis</h3>
+            <p style="font-size:.9rem;color:var(--text-muted)">${l.legalRef}</p>
+          </div>` : ''}
+          ${l.authority ? `<div class="detail-section">
+            <h3>🏛️ Filing Authority</h3>
+            <div class="info-grid">
+              <div class="info-item"><div class="label">Authority</div><div class="value">${l.authority.name}</div></div>
+              <div class="info-item"><div class="label">Address</div><div class="value">${l.authority.address}</div></div>
+              <div class="info-item"><div class="label">Phone</div><div class="value">${l.authority.phone}</div></div>
+              <div class="info-item"><div class="label">Email</div><div class="value">${l.authority.email}</div></div>
+              ${l.filingFee?`<div class="info-item"><div class="label">Filing Fee</div><div class="value">${l.filingFee}</div></div>`:''}
+              <div class="info-item"><div class="label">Website</div><div class="value"><a href="${l.authority.website}" target="_blank" style="color:var(--primary)">${l.authority.website}</a></div></div>
+            </div>
+            ${l.authority.formUrl && l.authority.formUrl !== 'N/A' ? `<a href="${l.authority.formUrl}" target="_blank" class="btn btn-sm btn-outline" style="margin-top:.75rem;border-color:var(--primary);color:var(--primary)">🔗 Official Forms & Portal</a>` : ''}
+          </div>` : ''}
         </div>
         <div style="flex:1;min-width:250px">
           <div class="claim-box">
@@ -1271,33 +1323,56 @@ function renderClaimForm() {
         ${l.documents.map(d => `<div class="review-row"><span class="label">${d}</span><span>${claimData.documents[d]?'✅ Ready':'⚠️ Missing'}</span></div>`).join('')}
       </div>
       ${claimData.signature ? `<div class="review-section"><h4>✍️ Signature</h4><img src="${claimData.signature}" style="max-width:300px;border:1px solid var(--border);border-radius:4px" alt="Signature"></div>` : ''}
+      ${l.authority ? `<div class="review-section">
+        <h4>🏛️ Submit To</h4>
+        <div class="review-row"><span class="label">Authority</span><span>${l.authority.name}</span></div>
+        <div class="review-row"><span class="label">Address</span><span>${l.authority.address}</span></div>
+        <div class="review-row"><span class="label">Phone</span><span>${l.authority.phone}</span></div>
+        ${l.authority.email!=='N/A'?`<div class="review-row"><span class="label">Email</span><span>${l.authority.email}</span></div>`:''}
+        ${l.filingFee?`<div class="review-row"><span class="label">Filing Fee</span><span>${l.filingFee}</span></div>`:''}
+      </div>` : ''}
+      <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:1rem;margin-bottom:1rem;font-size:.85rem">
+        <strong>⚠️ Important:</strong> This generates a formatted application document for you to <strong>print, sign, and mail/deliver</strong> to the authority listed above. This website does not submit directly to government offices. You must file with the relevant authority yourself or through a local attorney.
+      </div>
       <div class="modal-footer" style="border:none;padding:1rem 0 0">
         <button class="btn" onclick="claimPrev()">← Back</button>
-        <button class="btn btn-success" style="font-size:1rem;padding:.75rem 2rem" onclick="submitClaim()">✅ Submit Claim Application</button>
+        <button class="btn btn-success" style="font-size:1rem;padding:.75rem 2rem" onclick="submitClaim()">📄 Generate Official Application</button>
       </div>
     </div>
 
     <!-- Step 5: Success -->
     <div class="claim-form-section ${claimStep===5?'active':''}">
       <div class="success-screen">
-        <div class="success-icon">🎉</div>
-        <h2>Claim Application Submitted!</h2>
-        <p>Your land claim application has been recorded. Save your reference number below.</p>
+        <div class="success-icon">📄</div>
+        <h2>Application Generated!</h2>
+        <p>Your formatted land claim application is ready to download. You must print, sign, and submit it yourself.</p>
         <div class="ref-number">TF-${String(Date.now()).slice(-8)}-${Math.random().toString(36).slice(2,6).toUpperCase()}</div>
+        ${l.authority ? `<div style="background:#e8f5e9;border-radius:8px;padding:1.25rem;text-align:left;margin-bottom:1.5rem">
+          <h4 style="margin-bottom:.5rem">🏛️ Submit Your Application To:</h4>
+          <p style="font-weight:600;margin-bottom:.25rem">${l.authority.name}</p>
+          <p style="font-size:.9rem">${l.authority.address}</p>
+          <p style="font-size:.9rem">📞 ${l.authority.phone}</p>
+          ${l.authority.email!=='N/A'?`<p style="font-size:.9rem">✉️ ${l.authority.email}</p>`:''}
+          <a href="${l.authority.website}" target="_blank" style="font-size:.9rem;color:var(--primary)">🔗 ${l.authority.website}</a>
+          ${l.filingFee?`<p style="font-size:.9rem;margin-top:.5rem">💰 Filing Fee: <strong>${l.filingFee}</strong></p>`:''}
+        </div>` : ''}
         <div style="background:var(--bg);border-radius:8px;padding:1.25rem;text-align:left;margin-bottom:1.5rem">
           <h4 style="margin-bottom:.75rem">📌 Next Steps:</h4>
           <ol style="margin-left:1.5rem;line-height:2;font-size:.9rem">
-            <li>Download and print your application summary</li>
-            <li>Gather all required original documents</li>
-            <li>Contact the local land authority in <strong>${l.country}</strong></li>
-            <li>Submit physical copies as required by <strong>${l.claimMethod}</strong> process</li>
-            <li>You may need to visit and survey the land in person</li>
-            <li>Follow up with the registering authority within 30–90 days</li>
+            <li><strong>Download</strong> your formatted application document below</li>
+            <li><strong>Print</strong> the application and <strong>sign in ink</strong> where indicated</li>
+            <li><strong>Gather</strong> all required original documents listed in the application</li>
+            <li><strong>Pay</strong> the filing fee: ${l.filingFee || 'contact authority for fee schedule'}</li>
+            <li><strong>Submit</strong> in person or by mail to the authority listed above</li>
+            <li><strong>Retain copies</strong> of everything you submit</li>
+            <li><strong>Follow up</strong> within 30–90 days if no acknowledgment received</li>
+            <li><strong>Consider hiring a local attorney</strong> — strongly recommended</li>
           </ol>
         </div>
         <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-          <button class="btn btn-success" onclick="downloadClaimPDF()">📥 Download Application</button>
-          <button class="btn btn-primary" onclick="closeClaimModal()">Done</button>
+          <button class="btn btn-success" onclick="downloadClaimPDF()">📥 Download Official Application</button>
+          ${l.authority && l.authority.formUrl && l.authority.formUrl!=='N/A' ? `<a href="${l.authority.formUrl}" target="_blank" class="btn btn-primary">🔗 Official Gov Portal</a>` : ''}
+          <button class="btn" onclick="closeClaimModal()">Done</button>
         </div>
       </div>
     </div>
@@ -1381,62 +1456,194 @@ function submitClaim() {
 function downloadClaimPDF() {
   const p = claimData.personal;
   const l = claimData.listing;
-  const text = `LAND CLAIM APPLICATION
-${'═'.repeat(50)}
+  const auth = l.authority || {};
+  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  const ref = 'TF-' + String(Date.now()).slice(-8) + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
 
-Reference: TF-${String(Date.now()).slice(-8)}
-Date: ${new Date().toLocaleDateString()}
+  const text = `${'═'.repeat(72)}
+                    APPLICATION FOR LAND CLAIM / DISPOSITION
+                           ${l.claimMethod.toUpperCase()}
+${'═'.repeat(72)}
 
-PARCEL INFORMATION
-${'─'.repeat(50)}
-Parcel:         ${l.title}
-Location:       ${l.region}, ${l.country}
-Continent:      ${l.continent}
-Size:           ${l.size} acres
-Coordinates:    ${l.lat}, ${l.lng}
-Land Type:      ${l.type}
-Claim Method:   ${l.claimMethod}
+Application Reference:  ${ref}
+Date of Application:    ${today}
+Jurisdiction:           ${l.country}
 
-APPLICANT INFORMATION
-${'─'.repeat(50)}
-Full Name:      ${p.name}
-Date of Birth:  ${p.dob}
-Nationality:    ${p.nationality}
-ID Number:      ${p.idNum}
-Email:          ${p.email}
-Phone:          ${p.phone}
-Address:        ${p.address}
-Occupation:     ${p.occupation || 'N/A'}
-Intended Use:   ${p.use}
+${'─'.repeat(72)}
+SECTION 1 — FILING AUTHORITY
+${'─'.repeat(72)}
 
-DOCUMENTS PREPARED
-${'─'.repeat(50)}
-${l.documents.map(d => `[${claimData.documents[d]?'✓':' '}] ${d}`).join('\n')}
+To:     ${auth.name || 'Land Registry Authority'}
+        ${auth.address || ''}
+Phone:  ${auth.phone || ''}
+Email:  ${auth.email || ''}
+Web:    ${auth.website || ''}
 
-ADDITIONAL NOTES
-${'─'.repeat(50)}
-${claimData.notes || 'None'}
+${'─'.repeat(72)}
+SECTION 2 — APPLICANT DETAILS
+${'─'.repeat(72)}
 
-DECLARATION
-${'─'.repeat(50)}
-I, ${p.name}, hereby declare that all information provided
-in this application is true and accurate to the best of my knowledge.
+Full Legal Name:        ${p.name}
+Date of Birth:          ${p.dob}
+Nationality:            ${p.nationality}
+ID / Passport No.:      ${p.idNum}
 
-Digital Signature: ${claimData.sigName}
-Date Signed: ${new Date().toLocaleDateString()}
+Mailing Address:        ${p.address}
 
-${'═'.repeat(50)}
-Generated by TerraFree — Global Unclaimed Land Marketplace
-This document should be submitted alongside original documents
-to the relevant land authority in ${l.country}.
+Telephone:              ${p.phone}
+Email:                  ${p.email}
+Occupation:             ${p.occupation || 'N/A'}
+
+${'─'.repeat(72)}
+SECTION 3 — LAND PARCEL DESCRIPTION
+${'─'.repeat(72)}
+
+Parcel Name/Title:      ${l.title}
+Location:               ${l.region}, ${l.country}
+Continent:              ${l.continent}
+Land Classification:    ${l.type}
+
+Area:                   ${l.size} acres (${(l.size * 0.404686).toFixed(2)} hectares)
+GPS Coordinates:        Latitude ${l.lat}°, Longitude ${l.lng}°
+
+Legal Claim Method:     ${l.claimMethod}
+${l.legalRef ? `\nApplicable Law:\n${l.legalRef}` : ''}
+
+Intended Use of Land:   ${p.use}
+Features:               ${l.features.join(', ')}
+
+${l.filingFee ? `Filing Fee:             ${l.filingFee}` : ''}
+
+${'─'.repeat(72)}
+SECTION 4 — SUPPORTING DOCUMENTS CHECKLIST
+${'─'.repeat(72)}
+
+The following documents are required for this application.
+Mark each document enclosed with this filing:
+
+${l.documents.map((d, i) => `  ${String(i+1).padStart(2)}. [${claimData.documents[d] ? '✓' : ' '}]  ${d}`).join('\n')}
+
+${'─'.repeat(72)}
+SECTION 5 — ADDITIONAL INFORMATION / NOTES
+${'─'.repeat(72)}
+
+${claimData.notes || 'No additional notes provided by applicant.'}
+
+${'─'.repeat(72)}
+SECTION 6 — DECLARATION OF APPLICANT
+${'─'.repeat(72)}
+
+I, the undersigned, ${p.name}, hereby solemnly declare:
+
+  (a) That all statements made in this application are true, complete,
+      and correct to the best of my knowledge and belief.
+
+  (b) That I have reviewed the applicable law governing this claim,
+      specifically: ${l.claimMethod}.
+
+  (c) That I understand submitting false or misleading information in
+      a land claim application constitutes a criminal offense under
+      the laws of ${l.country}.
+
+  (d) That I acknowledge this application does not guarantee the grant,
+      approval, or recognition of any claim to the described land.
+
+  (e) That I agree to comply with all conditions, requirements, and
+      regulations imposed by ${auth.name || 'the relevant authority'}
+      and the laws of ${l.country}.
+
+  (f) That I understand physical inspection, survey, environmental
+      assessment, and/or public notice periods may be required before
+      any determination is made on this application.
+
+
+Signed: ___________________________     Date: ${today}
+        ${p.name}
+
+Witness (if required):
+
+Name:   ___________________________
+
+Signed: ___________________________     Date: ________________
+
+
+${'─'.repeat(72)}
+SECTION 7 — FOR OFFICIAL USE ONLY
+${'─'.repeat(72)}
+
+Received by:      ___________________________
+
+Date Received:    ___________________________
+
+File Number:      ___________________________
+
+Fee Paid:         ___________________________  Receipt No: ___________
+
+Preliminary Review:
+
+  [ ] Application complete
+  [ ] Documents verified
+  [ ] Fee received
+  [ ] Forwarded for assessment
+
+Officer Signature: ___________________________
+
+Date:              ___________________________
+
+
+${'═'.repeat(72)}
+                           INSTRUCTIONS TO APPLICANT
+${'═'.repeat(72)}
+
+1. PRINT this application and SIGN in ink where indicated above.
+
+2. GATHER all original documents listed in Section 4. Photocopies may
+   be accepted for initial filing but originals will be required for
+   verification.
+
+3. SUBMIT this completed application with all supporting documents to:
+
+   ${auth.name || 'Your local land authority'}
+   ${auth.address || ''}
+   ${auth.phone ? 'Phone: ' + auth.phone : ''}
+   ${auth.email && auth.email !== 'N/A' ? 'Email: ' + auth.email : ''}
+   ${auth.website ? 'Website: ' + auth.website : ''}
+
+4. FILING FEE: ${l.filingFee || 'Contact the authority for current fee schedule.'}
+   Pay by the method accepted by the filing authority (check, bank
+   transfer, or in-person payment). Retain your receipt.
+
+5. RETAIN A COPY of this entire application and all documents for
+   your records.
+
+6. FOLLOW UP with the filing authority within 30–90 days if you have
+   not received acknowledgment of receipt.
+
+7. LEGAL COUNSEL is strongly recommended, particularly for:
+   ${l.country === 'Argentina' ? '- Judicial filings (juicio de usucapión) require an abogado.\n' : ''}${l.country === 'Iceland' ? '- Óbyggðanefnd proceedings require a lögmaður.\n' : ''}   - Understanding local zoning and land use restrictions
+   - Navigating indigenous/traditional land rights
+   - Ensuring compliance with environmental regulations
+   - Verifying the land is genuinely available for claim
+
+${'═'.repeat(72)}
+APPLICATION GENERATED VIA TERRAFREE
+Reference: ${ref}
+Date: ${today}
+
+DISCLAIMER: This application is a template generated for informational
+purposes. TerraFree does not guarantee the accuracy of legal references,
+filing requirements, or land availability. Always verify current
+requirements with the relevant government authority before filing.
+This document does not constitute legal advice.
+${'═'.repeat(72)}
 `;
 
   const blob = new Blob([text], { type: 'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `land-claim-application-${l.title.replace(/\s+/g, '-').toLowerCase()}.txt`;
+  a.download = `land-claim-application-${l.country.replace(/\s+/g,'-')}-${l.title.replace(/\s+/g, '-').toLowerCase()}.txt`;
   a.click();
-  showToast('📥 Application downloaded!');
+  showToast('📥 Official application document downloaded — print, sign, and submit to the listed authority.');
 }
 
 function initSigPad() {
