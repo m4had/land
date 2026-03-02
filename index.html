@@ -991,7 +991,14 @@ const sampleListings = [
   }
 ];
 
-let listings = JSON.parse(localStorage.getItem('terrafree_listings') || 'null') || [...sampleListings];
+// Always use fresh sample data, merge any user-added listings from localStorage
+let listings = (() => {
+  const sampleIds = new Set(sampleListings.map(s => s.id));
+  const stored = JSON.parse(localStorage.getItem('terrafree_listings') || '[]');
+  const userAdded = stored.filter(s => !sampleIds.has(s.id));
+  localStorage.setItem('terrafree_listings', JSON.stringify([...sampleListings, ...userAdded]));
+  return [...sampleListings, ...userAdded];
+})();
 let map, markers = [];
 
 // Init map
@@ -1182,6 +1189,7 @@ function closeClaimModal() { document.getElementById('claimModal').classList.rem
 
 function renderClaimForm() {
   const l = claimData.listing;
+  const auth = l.authority || {};
   const steps = ['Personal Info', 'Documents', 'Declaration', 'Review & Submit'];
   
   const stepsHtml = steps.map((s, i) => {
